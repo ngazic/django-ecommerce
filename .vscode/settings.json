@@ -8,5 +8,9 @@
   "python.defaultInterpreterPath": "D:\\other projects\\django-ecommerce\\.venv\\scripts\\python",
   "editor.tabSize": 2,
   "php.validate.run": "onType",
-  "task.saveBeforeRun": "prompt"
+  "task.saveBeforeRun": "prompt",
+  "editor.detectIndentation": false,
+
+  "prettier.tabWidth": 2,
+  "prettier.useTabs": true
 }
