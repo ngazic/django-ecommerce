@@ -1,4 +1,8 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
 
 <!-- ========================= SECTION PAGETOP ========================= -->
 <section class="section-pagetop bg">
@@ -29,15 +33,10 @@
                             <div class="card-body">
 
                                 <ul class="list-menu">
-                                    <li><a href="#">People </a></li>
-                                    <li><a href="#">Watches </a></li>
-                                    <li><a href="#">Cinema </a></li>
-                                    <li><a href="#">Clothes </a></li>
-                                    <li><a href="#">Home items </a></li>
-                                    <li><a href="#">Animals</a></li>
-                                    <li><a href="#">People </a></li>
+                                    {% for category in links %}
+                                    <li><a href="{{ category.get_url }}">{{ category.category_name }} </a></li>
+                                    {% endfor %}
                                 </ul>
-
                             </div>
                             <!-- card-body.// -->
                         </div>
@@ -159,7 +158,7 @@
                                     <!-- price-wrap.// -->
                                 </div>
                                 <a href="{{ product.get_url }}" class="btn btn-block btn-success">Added to cart </a>
-																<a href="{{ product.get_url }}" class="btn btn-block btn-primary">Added to cart </a>
+                                <a href="{{ product.get_url }}" class="btn btn-block btn-primary">Added to cart </a>
                             </figcaption>
                         </figure>
                     </div>
