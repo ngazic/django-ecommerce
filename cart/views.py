@@ -15,12 +15,29 @@ def _session_id(request):
     return session
 
 
-def cart(request):
+def cart(request, total=0, quantity=0,cart_items=None):
+    tax = 0
+    try:
+        cart = Cart.objects.get(cart_id=_session_id(request))
+        cart_items = cart.cart_items.all()
+        for cart_item in cart_items:
+            total += cart_item.sub_total()
+            quantity += cart_item.quantity
+        tax = round(0.17 * total)
+    except:
+        pass #just igore bacause we have default values from kwargs of function
     
-    return render(request, 'store/cart.html')
+    context = {
+        'total': total,
+        'quantity': quantity,
+        'items': cart_items,
+        'tax': tax,
+        'grand_total': total + tax
+    }
+    return render(request, 'store/cart.html', context)
 
 
-def add_cart(request, product_id):
+def add_cart_item(request, product_id):
     try:
         product = Product.objects.get(id=product_id)
     except:
@@ -47,3 +64,30 @@ def add_cart(request, product_id):
         cart_item.save()
 
     return redirect('cart')
+
+
+def remove_cart_item(request, cart_item_id):
+    try:
+        cart_item = CartItem.objects.get(id=cart_item_id)
+    except:
+        return HttpResponse('Invalid cart item')
+    else:
+        if cart_item.quantity > 1:
+            cart_item.quantity -= 1
+            cart_item.save()
+        else:
+            cart_item.delete()
+    
+    return redirect('cart')
+        
+
+def remove_cart_product(request, cart_item_id):
+    try:
+        cart_item = CartItem.objects.get(id=cart_item_id)
+    except:
+        return HttpResponse('Invalid cart item')
+    else:
+        cart_item.delete()
+    
+    return redirect('cart')
+        
