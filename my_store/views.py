@@ -1,4 +1,5 @@
 from django.shortcuts import render, HttpResponse
+from django.core.paginator import Paginator
 from .models import Product
 from cart.models import CartItem
 from cart.views import _session_id
@@ -15,10 +16,17 @@ def home(request):
     
     
 def store(request, category_slug=None):
+    page = request.GET.get('page', 1)
     products = Product.objects.all().filter(is_available=True)
     if category_slug:
         products = products.filter(category__slug=category_slug)
-    context = {'products': products}
+    
+    paginator = Paginator(products, 3)
+    paginated_products = paginator.get_page(page)
+    context = {
+        'products': paginated_products,
+        'product_count': products.count()
+        }
     return render(request, 'store/store.html', context)
 
 
