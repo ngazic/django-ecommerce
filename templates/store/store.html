@@ -130,12 +130,17 @@
 
                 <header class="border-bottom mb-4 pb-3">
                     <div class="form-inline">
-                        <span class="mr-md-auto">32 Items found </span>
+                        <span class="mr-md-auto">{{ product_count }} Items found </span>
 
                     </div>
                 </header>
                 <!-- sect-heading -->
 
+                {% if not products %}
+                <div>
+                    <h2>No result found. Please try again.</h2>
+                </div>
+                {% else %}
                 <div class="row">
 
                     {% for product in products %}
@@ -166,6 +171,7 @@
                 </div>
                 <!-- row end.// -->
 
+                {% endif %}
 
                 <nav class="mt-4" aria-label="Page navigation sample">
                     {% if products.has_other_pages %}
