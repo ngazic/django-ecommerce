@@ -157,8 +157,11 @@
                                     </div>
                                     <!-- price-wrap.// -->
                                 </div>
+                                {% if is_in_cart %}
                                 <a href="{{ product.get_url }}" class="btn btn-block btn-success">Added to cart </a>
-                                <a href="{{ product.get_url }}" class="btn btn-block btn-primary">Added to cart </a>
+                                {% else %}
+                                <a href="{% url 'add-cart-item' product.id %}" class="btn btn-block btn-primary">Add to cart </a>
+                                {% endif %}
                             </figcaption>
                         </figure>
                     </div>
