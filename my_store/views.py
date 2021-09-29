@@ -47,6 +47,7 @@ def product_detail(request, category_slug, product_slug):
 
 
 def search(request):
+    print('search path', request.path)
     search_term = request.GET.get('search')
     products = None
     product_count = 0
