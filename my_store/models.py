@@ -35,3 +35,26 @@ class Product(models.Model):
     #     if reviews['count'] is not None:
     #         count = int(reviews['count'])
     #     return count
+    
+class VariationManager(models.Manager):
+    def colors(self):
+        return super(VariationManager, self).filter(variation_category='color', is_active=True)
+
+    def sizes(self):
+        return super(VariationManager, self).filter(variation_category='size', is_active=True)
+
+class Variation(models.Model):
+    variation_category_choice = (
+    ('color', 'color'),
+    ('size', 'size'),
+    )
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='variations')
+    variation_category = models.CharField(max_length=100, choices=variation_category_choice)
+    variation_value     = models.CharField(max_length=100)
+    is_active           = models.BooleanField(default=True)
+    created_date        = models.DateTimeField(auto_now=True)
+
+    objects = VariationManager()
+
+    def __str__(self):
+        return self.variation_value
